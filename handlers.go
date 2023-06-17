@@ -10,21 +10,14 @@ import (
 
 func (c *Client) GetEnv(w http.ResponseWriter, r *http.Request) {
 	if cfenv.IsRunningOnCF() {
-		appEnv, err := cfenv.Current()
+		appEnv := cfenv.CurrentEnv()
+
+		bytes, err := json.Marshal(appEnv)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			c.Logger.Error("failed get env", zap.Error(err))
+			c.Logger.Error("failed marshal env", zap.Error(err))
 			return
 		}
-
-		mysqlService, err := appEnv.Services.WithTag("mysql")
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			c.Logger.Error("failed get mysql service", zap.Error(err))
-			return
-		}
-
-		bytes, err := json.Marshal(mysqlService)
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusOK)
 		w.Write(bytes)
