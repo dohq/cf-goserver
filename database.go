@@ -41,12 +41,12 @@ func newDBClient(isCF bool) (*ent.Client, error) {
 			return nil, err
 		}
 
-		service, err := appEnv.Services.WithName(serviceName)
+		service, err := appEnv.Services.WithTag("mysql")
 		if err != nil {
 			return nil, err
 		}
 
-		dsn, ok := service.CredentialString("uri")
+		dsn, ok := service[0].CredentialString("uri")
 		if ok != true {
 			return nil, fmt.Errorf("failed get dsn from environment: %v", err)
 		}

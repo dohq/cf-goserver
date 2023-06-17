@@ -16,10 +16,9 @@ import (
 )
 
 var (
-	username    = os.Getenv("USERNAME")
-	password    = os.Getenv("PASSWORD")
-	serviceName = os.Getenv("SERVICE_NAME")
-	creds       = map[string]string{username: password}
+	username = os.Getenv("USERNAME")
+	password = os.Getenv("PASSWORD")
+	creds    = map[string]string{username: password}
 )
 
 func main() {
