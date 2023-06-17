@@ -12,7 +12,7 @@ require (
 	github.com/prometheus/client_golang v1.15.1
 	github.com/xiaoqidun/entps v0.0.0-20230614162317-beba414f3e5d
 	go.elastic.co/ecszap v1.0.1
-	go.uber.org/zap v1.21.0
+	go.uber.org/zap v1.24.0
 )
 
 require (
