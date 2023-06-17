@@ -11,6 +11,7 @@ import (
 	"github.com/cloudfoundry-community/go-cfenv"
 	"github.com/dohq/go-cfserver/ent"
 
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/xiaoqidun/entps"
 )
 
