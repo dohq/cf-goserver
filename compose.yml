@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  zipkin:
+    image: openzipkin/zipkin:2.19.1
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      STORAGE_TYPE: mem
+      JAVA_OPTS: -Xms512m -Xmx512m -XX:+ExitOnOutOfMemoryError
