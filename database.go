@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"entgo.io/ent/dialect"
@@ -10,10 +9,21 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/cloudfoundry-community/go-cfenv"
 	"github.com/dohq/go-cfserver/ent"
+	"github.com/go-sql-driver/mysql"
+	"github.com/goccy/go-json"
 
-	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/xiaoqidun/entps"
 )
+
+type ServiceCredentials struct {
+	Hostname string      `json:"hostname"`
+	Port     json.Number `json:"port"`
+	Name     string      `json:"name"`
+	Username string      `json:"username"`
+	Password string      `json:"password"`
+	URI      string      `json:"uri"`
+	JdbcURL  string      `json:"jdbcUrl"`
+}
 
 func newDBClient(isCF bool) (*ent.Client, error) {
 	var c *ent.Client
@@ -30,12 +40,28 @@ func newDBClient(isCF bool) (*ent.Client, error) {
 			return nil, err
 		}
 
-		dsn, ok := service[0].CredentialString("uri")
-		if ok != true {
-			return nil, fmt.Errorf("failed get dsn from environment: %v", err)
+		cds, err := json.Marshal(service[0].Credentials)
+		if err != nil {
+			return nil, err
 		}
 
-		drv, err := sql.Open(dialect.MySQL, dsn)
+		var creds ServiceCredentials
+		if err := json.Unmarshal(cds, &creds); err != nil {
+			return nil, err
+		}
+
+		dsn := mysql.Config{
+			DBName:               creds.Name,
+			Addr:                 creds.Hostname + ":" + creds.Port.String(),
+			User:                 creds.Username,
+			Passwd:               creds.Password,
+			Net:                  "tcp",
+			ParseTime:            true,
+			Collation:            "utf8mb4_unicode_ci",
+			AllowNativePasswords: true,
+		}
+
+		drv, err := sql.Open(dialect.MySQL, dsn.FormatDSN())
 		if err != nil {
 			return nil, err
 		}
