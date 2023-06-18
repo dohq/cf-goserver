@@ -16,13 +16,13 @@ import (
 )
 
 type ServiceCredentials struct {
-	Hostname string      `json:"hostname"`
-	Port     json.Number `json:"port"`
-	Name     string      `json:"name"`
-	Username string      `json:"username"`
-	Password string      `json:"password"`
-	URI      string      `json:"uri"`
-	JdbcURL  string      `json:"jdbcUrl"`
+	Hostname string      `json:"hostname,omitempty"`
+	Port     json.Number `json:"port,omitempty"`
+	Name     string      `json:"name,omitempty"`
+	Username string      `json:"username,omitempty"`
+	Password string      `json:"password,omitempty"`
+	URI      string      `json:"uri,omitempty"`
+	JdbcURL  string      `json:"jdbcUrl,omitempty"`
 }
 
 func newDBClient(isCF bool) (*ent.Client, error) {
