@@ -25,6 +25,7 @@
 go.work
 
 # End of https://www.toptal.com/developers/gitignore/api/go
+.envrc
 go-cfserver
-tmp/
 manifest.yml
+tmp/

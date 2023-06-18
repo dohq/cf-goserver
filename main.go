@@ -40,10 +40,15 @@ func main() {
 	r.Use(chilogger.NewZapMiddleware("go-cfserver", c.Logger))
 
 	r.Route("/", func(r chi.Router) {
-		r.Handle("/actuator/prometheus", promhttp.Handler())
-
 		// basic auth section
 		r.With(middleware.BasicAuth("secret", creds)).Get("/env", c.GetEnv)
+
+		r.Handle("/actuator/prometheus", promhttp.Handler())
+		r.Route("/user", func(r chi.Router) {
+			r.Post("/", c.UserAdd)
+			r.Get("/", c.UserGet)
+		})
+
 	})
 
 	// gracefull shutdown
