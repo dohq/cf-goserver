@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/dohq/go-cfserver/ent/user"
+	"github.com/google/uuid"
 )
 
 // UserCreate is the builder for creating a User entity.
@@ -29,6 +30,12 @@ func (uc *UserCreate) SetName(s string) *UserCreate {
 // SetAge sets the "age" field.
 func (uc *UserCreate) SetAge(i int) *UserCreate {
 	uc.mutation.SetAge(i)
+	return uc
+}
+
+// SetUID sets the "uid" field.
+func (uc *UserCreate) SetUID(u uuid.UUID) *UserCreate {
+	uc.mutation.SetUID(u)
 	return uc
 }
 
@@ -123,6 +130,9 @@ func (uc *UserCreate) check() error {
 			return &ValidationError{Name: "age", err: fmt.Errorf(`ent: validator failed for field "User.age": %w`, err)}
 		}
 	}
+	if _, ok := uc.mutation.UID(); !ok {
+		return &ValidationError{Name: "uid", err: errors.New(`ent: missing required field "User.uid"`)}
+	}
 	if _, ok := uc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "User.created_at"`)}
 	}
@@ -162,6 +172,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.Age(); ok {
 		_spec.SetField(user.FieldAge, field.TypeInt, value)
 		_node.Age = value
+	}
+	if value, ok := uc.mutation.UID(); ok {
+		_spec.SetField(user.FieldUID, field.TypeUUID, value)
+		_node.UID = value
 	}
 	if value, ok := uc.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)

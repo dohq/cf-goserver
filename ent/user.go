@@ -10,6 +10,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/dohq/go-cfserver/ent/user"
+	"github.com/google/uuid"
 )
 
 // User is the model entity for the User schema.
@@ -21,6 +22,8 @@ type User struct {
 	Name string `json:"name,omitempty"`
 	// age
 	Age int `json:"age,omitempty"`
+	// unique user id
+	UID uuid.UUID `json:"uid,omitempty"`
 	// created at
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// updated at
@@ -39,6 +42,8 @@ func (*User) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullString)
 		case user.FieldCreatedAt, user.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
+		case user.FieldUID:
+			values[i] = new(uuid.UUID)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -71,6 +76,12 @@ func (u *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field age", values[i])
 			} else if value.Valid {
 				u.Age = int(value.Int64)
+			}
+		case user.FieldUID:
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field uid", values[i])
+			} else if value != nil {
+				u.UID = *value
 			}
 		case user.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -125,6 +136,9 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("age=")
 	builder.WriteString(fmt.Sprintf("%v", u.Age))
+	builder.WriteString(", ")
+	builder.WriteString("uid=")
+	builder.WriteString(fmt.Sprintf("%v", u.UID))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(u.CreatedAt.Format(time.ANSIC))

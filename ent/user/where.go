@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/dohq/go-cfserver/ent/predicate"
+	"github.com/google/uuid"
 )
 
 // ID filters vertices based on their ID field.
@@ -62,6 +63,11 @@ func Name(v string) predicate.User {
 // Age applies equality check predicate on the "age" field. It's identical to AgeEQ.
 func Age(v int) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldAge, v))
+}
+
+// UID applies equality check predicate on the "uid" field. It's identical to UIDEQ.
+func UID(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldUID, v))
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
@@ -177,6 +183,46 @@ func AgeLT(v int) predicate.User {
 // AgeLTE applies the LTE predicate on the "age" field.
 func AgeLTE(v int) predicate.User {
 	return predicate.User(sql.FieldLTE(FieldAge, v))
+}
+
+// UIDEQ applies the EQ predicate on the "uid" field.
+func UIDEQ(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldUID, v))
+}
+
+// UIDNEQ applies the NEQ predicate on the "uid" field.
+func UIDNEQ(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldUID, v))
+}
+
+// UIDIn applies the In predicate on the "uid" field.
+func UIDIn(vs ...uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldIn(FieldUID, vs...))
+}
+
+// UIDNotIn applies the NotIn predicate on the "uid" field.
+func UIDNotIn(vs ...uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldUID, vs...))
+}
+
+// UIDGT applies the GT predicate on the "uid" field.
+func UIDGT(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldGT(FieldUID, v))
+}
+
+// UIDGTE applies the GTE predicate on the "uid" field.
+func UIDGTE(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldUID, v))
+}
+
+// UIDLT applies the LT predicate on the "uid" field.
+func UIDLT(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldLT(FieldUID, v))
+}
+
+// UIDLTE applies the LTE predicate on the "uid" field.
+func UIDLTE(v uuid.UUID) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldUID, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.

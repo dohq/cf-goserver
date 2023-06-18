@@ -24,11 +24,11 @@ func init() {
 	// user.AgeValidator is a validator for the "age" field. It is called by the builders before save.
 	user.AgeValidator = userDescAge.Validators[0].(func(int) error)
 	// userDescCreatedAt is the schema descriptor for created_at field.
-	userDescCreatedAt := userFields[2].Descriptor()
+	userDescCreatedAt := userFields[3].Descriptor()
 	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
 	user.DefaultCreatedAt = userDescCreatedAt.Default.(time.Time)
 	// userDescUpdatedAt is the schema descriptor for updated_at field.
-	userDescUpdatedAt := userFields[3].Descriptor()
+	userDescUpdatedAt := userFields[4].Descriptor()
 	// user.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
 	// user.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.

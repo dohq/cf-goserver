@@ -8,6 +8,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/goccy/go-json v0.10.2
+	github.com/google/uuid v1.3.0
 	github.com/igknot/chi-zap-ecs-logger v0.0.0-20210819133113-23fe43d8a411
 	github.com/ory/graceful v0.1.3
 	github.com/prometheus/client_golang v1.16.0
@@ -27,7 +28,6 @@ require (
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/magefile/mage v1.9.0 // indirect

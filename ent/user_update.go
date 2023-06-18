@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/dohq/go-cfserver/ent/predicate"
 	"github.com/dohq/go-cfserver/ent/user"
+	"github.com/google/uuid"
 )
 
 // UserUpdate is the builder for updating User entities.
@@ -44,6 +45,12 @@ func (uu *UserUpdate) SetAge(i int) *UserUpdate {
 // AddAge adds i to the "age" field.
 func (uu *UserUpdate) AddAge(i int) *UserUpdate {
 	uu.mutation.AddAge(i)
+	return uu
+}
+
+// SetUID sets the "uid" field.
+func (uu *UserUpdate) SetUID(u uuid.UUID) *UserUpdate {
+	uu.mutation.SetUID(u)
 	return uu
 }
 
@@ -144,6 +151,9 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := uu.mutation.AddedAge(); ok {
 		_spec.AddField(user.FieldAge, field.TypeInt, value)
 	}
+	if value, ok := uu.mutation.UID(); ok {
+		_spec.SetField(user.FieldUID, field.TypeUUID, value)
+	}
 	if value, ok := uu.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)
 	}
@@ -186,6 +196,12 @@ func (uuo *UserUpdateOne) SetAge(i int) *UserUpdateOne {
 // AddAge adds i to the "age" field.
 func (uuo *UserUpdateOne) AddAge(i int) *UserUpdateOne {
 	uuo.mutation.AddAge(i)
+	return uuo
+}
+
+// SetUID sets the "uid" field.
+func (uuo *UserUpdateOne) SetUID(u uuid.UUID) *UserUpdateOne {
+	uuo.mutation.SetUID(u)
 	return uuo
 }
 
@@ -315,6 +331,9 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if value, ok := uuo.mutation.AddedAge(); ok {
 		_spec.AddField(user.FieldAge, field.TypeInt, value)
+	}
+	if value, ok := uuo.mutation.UID(); ok {
+		_spec.SetField(user.FieldUID, field.TypeUUID, value)
 	}
 	if value, ok := uuo.mutation.CreatedAt(); ok {
 		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)

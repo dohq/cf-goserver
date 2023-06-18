@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/dohq/go-cfserver/ent/predicate"
 	"github.com/dohq/go-cfserver/ent/user"
+	"github.com/google/uuid"
 )
 
 const (
@@ -36,6 +37,7 @@ type UserMutation struct {
 	name          *string
 	age           *int
 	addage        *int
+	uid           *uuid.UUID
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -234,6 +236,42 @@ func (m *UserMutation) ResetAge() {
 	m.addage = nil
 }
 
+// SetUID sets the "uid" field.
+func (m *UserMutation) SetUID(u uuid.UUID) {
+	m.uid = &u
+}
+
+// UID returns the value of the "uid" field in the mutation.
+func (m *UserMutation) UID() (r uuid.UUID, exists bool) {
+	v := m.uid
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUID returns the old "uid" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldUID(ctx context.Context) (v uuid.UUID, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUID: %w", err)
+	}
+	return oldValue.UID, nil
+}
+
+// ResetUID resets all changes to the "uid" field.
+func (m *UserMutation) ResetUID() {
+	m.uid = nil
+}
+
 // SetCreatedAt sets the "created_at" field.
 func (m *UserMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
@@ -340,12 +378,15 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 5)
 	if m.name != nil {
 		fields = append(fields, user.FieldName)
 	}
 	if m.age != nil {
 		fields = append(fields, user.FieldAge)
+	}
+	if m.uid != nil {
+		fields = append(fields, user.FieldUID)
 	}
 	if m.created_at != nil {
 		fields = append(fields, user.FieldCreatedAt)
@@ -365,6 +406,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case user.FieldAge:
 		return m.Age()
+	case user.FieldUID:
+		return m.UID()
 	case user.FieldCreatedAt:
 		return m.CreatedAt()
 	case user.FieldUpdatedAt:
@@ -382,6 +425,8 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldName(ctx)
 	case user.FieldAge:
 		return m.OldAge(ctx)
+	case user.FieldUID:
+		return m.OldUID(ctx)
 	case user.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case user.FieldUpdatedAt:
@@ -408,6 +453,13 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAge(v)
+		return nil
+	case user.FieldUID:
+		v, ok := value.(uuid.UUID)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUID(v)
 		return nil
 	case user.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -492,6 +544,9 @@ func (m *UserMutation) ResetField(name string) error {
 		return nil
 	case user.FieldAge:
 		m.ResetAge()
+		return nil
+	case user.FieldUID:
+		m.ResetUID()
 		return nil
 	case user.FieldCreatedAt:
 		m.ResetCreatedAt()

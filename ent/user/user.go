@@ -17,6 +17,8 @@ const (
 	FieldName = "name"
 	// FieldAge holds the string denoting the age field in the database.
 	FieldAge = "age"
+	// FieldUID holds the string denoting the uid field in the database.
+	FieldUID = "uid"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
@@ -30,6 +32,7 @@ var Columns = []string{
 	FieldID,
 	FieldName,
 	FieldAge,
+	FieldUID,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -73,6 +76,11 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 // ByAge orders the results by the age field.
 func ByAge(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAge, opts...).ToFunc()
+}
+
+// ByUID orders the results by the uid field.
+func ByUID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUID, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the created_at field.
