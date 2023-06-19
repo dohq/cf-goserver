@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/cloudfoundry-community/go-cfenv"
+	"github.com/dohq/go-cfserver/ent"
 	"github.com/dohq/go-cfserver/ent/user"
 	"github.com/go-chi/render"
 	"github.com/goccy/go-json"
-	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -32,33 +32,24 @@ func (c *Client) UserAdd(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	defer r.Body.Close()
 
-	name := r.URL.Query().Get("name")
-
-	uid, err := uuid.Parse(r.URL.Query().Get("uid"))
-	if err != nil {
+	var payload ent.User
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		c.Logger.Error("failed parse uid", zap.Error(err))
-		return
-	}
-
-	age, err := strconv.Atoi(r.URL.Query().Get("age"))
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		c.Logger.Error("failed convert age", zap.Error(err))
+		c.Logger.Error("failed parse body", zap.Error(err))
 		return
 	}
 
 	u, err := c.Db.User.Create().
-		SetName(name).
-		SetAge(age).
-		SetUID(uid).
+		SetName(payload.Name).
+		SetAge(payload.Age).
+		SetUID(payload.UID).
 		Save(ctx)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		c.Logger.Error("failed insert user record", zap.Error(err))
 		return
 	}
-	c.Logger.Info("insert ok", zap.Int("id", u.ID), zap.String("username", name))
+	c.Logger.Info("insert ok", zap.Int("id", u.ID), zap.String("name", payload.Name))
 	w.WriteHeader(http.StatusOK)
 	render.JSON(w, r, u)
 }
@@ -83,7 +74,7 @@ func (c *Client) UserGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c.Logger.Info("select ok", zap.Int("id", u.ID), zap.String("username", u.Name))
+	c.Logger.Info("select ok", zap.Int("id", u.ID), zap.String("name", u.Name))
 	w.WriteHeader(http.StatusOK)
 	render.JSON(w, r, u)
 }
