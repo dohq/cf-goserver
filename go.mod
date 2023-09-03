@@ -14,7 +14,7 @@ require (
 	github.com/ory/graceful v0.1.3
 	github.com/prometheus/client_golang v1.16.0
 	github.com/xiaoqidun/entps v0.0.0-20230712154733-ff3582a22e82
-	go.elastic.co/ecszap v1.0.1
+	go.elastic.co/ecszap v1.0.2
 	go.uber.org/zap v1.24.0
 )
 
