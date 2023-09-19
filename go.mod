@@ -15,7 +15,7 @@ require (
 	github.com/prometheus/client_golang v1.16.0
 	github.com/xiaoqidun/entps v0.0.0-20230804161454-71e6c7d2a93b
 	go.elastic.co/ecszap v1.0.2
-	go.uber.org/zap v1.25.0
+	go.uber.org/zap v1.26.0
 )
 
 require (
