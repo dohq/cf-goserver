@@ -13,7 +13,7 @@ require (
 	github.com/igknot/chi-zap-ecs-logger v0.0.0-20210819133113-23fe43d8a411
 	github.com/ory/graceful v0.1.3
 	github.com/prometheus/client_golang v1.16.0
-	github.com/xiaoqidun/entps v0.0.0-20230804161454-71e6c7d2a93b
+	github.com/xiaoqidun/entps v0.0.0-20230930170308-202cd668817a
 	go.elastic.co/ecszap v1.0.2
 	go.uber.org/zap v1.26.0
 )
@@ -58,7 +58,7 @@ require (
 	modernc.org/mathutil v1.5.0 // indirect
 	modernc.org/memory v1.6.0 // indirect
 	modernc.org/opt v0.1.3 // indirect
-	modernc.org/sqlite v1.25.0 // indirect
+	modernc.org/sqlite v1.26.0 // indirect
 	modernc.org/strutil v1.1.3 // indirect
 	modernc.org/token v1.0.1 // indirect
 )
