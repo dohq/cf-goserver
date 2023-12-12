@@ -9,7 +9,7 @@ require (
 	github.com/go-chi/render v1.0.3
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/goccy/go-json v0.10.2
-	github.com/google/uuid v1.4.0
+	github.com/google/uuid v1.5.0
 	github.com/igknot/chi-zap-ecs-logger v0.0.0-20210819133113-23fe43d8a411
 	github.com/ory/graceful v0.1.3
 	github.com/prometheus/client_golang v1.17.0
