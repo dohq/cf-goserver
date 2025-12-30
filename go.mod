@@ -11,7 +11,7 @@ require (
 	github.com/goccy/go-json v0.10.5
 	github.com/google/uuid v1.6.0
 	github.com/igknot/chi-zap-ecs-logger v0.0.0-20210819133113-23fe43d8a411
-	github.com/ory/graceful v0.1.3
+	github.com/ory/graceful v0.2.0
 	github.com/prometheus/client_golang v1.17.0
 	github.com/xiaoqidun/entps v0.0.0-20231101165119-01cd6512a038
 	go.elastic.co/ecszap v1.0.3
