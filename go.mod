@@ -1,10 +1,10 @@
 module github.com/dohq/go-cfserver
 
-go 1.20
+go 1.25.0
 
 require (
 	entgo.io/ent v0.12.4
-	github.com/cloudfoundry-community/go-cfenv v1.18.0
+	github.com/cloudfoundry-community/go-cfenv v1.24.2
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/render v1.0.3
 	github.com/go-sql-driver/mysql v1.7.1
@@ -28,8 +28,9 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
+	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/magefile/mage v1.9.0 // indirect
@@ -46,10 +47,11 @@ require (
 	github.com/zclconf/go-cty v1.8.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
-	golang.org/x/mod v0.10.0 // indirect
-	golang.org/x/sys v0.11.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
-	golang.org/x/tools v0.8.1-0.20230428195545-5283a0178901 // indirect
+	golang.org/x/mod v0.37.0 // indirect
+	golang.org/x/sync v0.22.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
+	golang.org/x/tools v0.47.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	lukechampine.com/uint128 v1.2.0 // indirect
 	modernc.org/cc/v3 v3.40.0 // indirect
